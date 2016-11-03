@@ -391,6 +391,17 @@ OS_UNFAIR_LOCK_AVAILABILITY
 OS_EXPORT OS_NOTHROW OS_NONNULL_ALL
 void os_unfair_lock_assert_not_owner(os_unfair_lock_t lock);
 
+/*! @group os_unfair_lock variant for consumption by Libc
+ */
+OS_UNFAIR_LOCK_AVAILABILITY
+OS_EXPORT OS_NOTHROW OS_NONNULL_ALL
+void os_unfair_lock_lock_with_options_4Libc(os_unfair_lock_t lock,
+		os_unfair_lock_options_t options);
+
+OS_UNFAIR_LOCK_AVAILABILITY
+OS_EXPORT OS_NOTHROW OS_NONNULL_ALL
+void os_unfair_lock_unlock_4Libc(os_unfair_lock_t lock);
+
 __END_DECLS
 
 OS_ASSUME_NONNULL_END

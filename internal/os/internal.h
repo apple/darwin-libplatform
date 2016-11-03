@@ -28,8 +28,6 @@
 
 #include "os/base_private.h"
 #include "os/semaphore_private.h"
-#include "os/once_private.h"
-#include "os/alloc_once_impl.h"
 
 #include <stddef.h>
 #include <stdint.h>

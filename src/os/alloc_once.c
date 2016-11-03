@@ -27,6 +27,7 @@
  */
 
 #include "os/internal.h"
+#include "os/alloc_once_impl.h"
 #include <mach/mach_init.h>
 #include <mach/mach_vm.h>
 #include <mach/vm_statistics.h>

@@ -101,12 +101,20 @@
 		OS_VARIANT(os_unfair_lock_lock_no_tsd_4libpthread, OS_VARIANT_SELECTOR)
 #define os_unfair_lock_unlock_no_tsd_4libpthread \
 		OS_VARIANT(os_unfair_lock_unlock_no_tsd_4libpthread, OS_VARIANT_SELECTOR)
+#define os_unfair_lock_lock_with_options_4Libc \
+		OS_VARIANT(os_unfair_lock_lock_with_options_4Libc, OS_VARIANT_SELECTOR)
+#define os_unfair_lock_unlock_4Libc \
+		OS_VARIANT(os_unfair_lock_unlock_4Libc, OS_VARIANT_SELECTOR)
 #define _os_nospin_lock_lock \
 		OS_VARIANT(_os_nospin_lock_lock, OS_VARIANT_SELECTOR)
 #define _os_nospin_lock_trylock \
 		OS_VARIANT(_os_nospin_lock_trylock, OS_VARIANT_SELECTOR)
 #define _os_nospin_lock_unlock \
 		OS_VARIANT(_os_nospin_lock_unlock, OS_VARIANT_SELECTOR)
+#define _os_once \
+		OS_VARIANT(_os_once, OS_VARIANT_SELECTOR)
+#define __os_once_reset \
+		OS_VARIANT(__os_once_reset, OS_VARIANT_SELECTOR)
 #endif // TARGET_OS_EMBEDDED
 #endif // OS_VARIANT_SELECTOR
 

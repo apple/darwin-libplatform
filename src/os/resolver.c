@@ -62,6 +62,8 @@ OS_VARIANT_UPMP_RESOLVER(os_unfair_lock_trylock)
 OS_VARIANT_UPMP_RESOLVER(os_unfair_lock_unlock)
 OS_VARIANT_UPMP_RESOLVER(os_unfair_lock_lock_no_tsd_4libpthread)
 OS_VARIANT_UPMP_RESOLVER(os_unfair_lock_unlock_no_tsd_4libpthread)
+OS_VARIANT_UPMP_RESOLVER(os_unfair_lock_lock_with_options_4Libc)
+OS_VARIANT_UPMP_RESOLVER(os_unfair_lock_unlock_4Libc)
 OS_VARIANT_UPMP_RESOLVER(_os_nospin_lock_lock)
 OS_VARIANT_UPMP_RESOLVER(_os_nospin_lock_trylock)
 OS_VARIANT_UPMP_RESOLVER(_os_nospin_lock_unlock)
@@ -78,6 +80,9 @@ OS_VARIANT_UPMP_RESOLVER_INTERNAL(_os_lock_unfair_unlock)
 OS_VARIANT_UPMP_RESOLVER_INTERNAL(_os_lock_nospin_lock)
 OS_VARIANT_UPMP_RESOLVER_INTERNAL(_os_lock_nospin_trylock)
 OS_VARIANT_UPMP_RESOLVER_INTERNAL(_os_lock_nospin_unlock)
+
+OS_VARIANT_UPMP_RESOLVER(_os_once)
+OS_VARIANT_UPMP_RESOLVER(__os_once_reset)
 #endif // TARGET_OS_EMBEDDED
 
 #endif // OS_VARIANT_SELECTOR
