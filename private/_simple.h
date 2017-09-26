@@ -38,14 +38,14 @@ __BEGIN_DECLS
  * arguments from the va_list, and the results are written to the given
  * file descriptor.
  */
-void _simple_vdprintf(int __fd, const char *__fmt, va_list __ap);
+void _simple_vdprintf(int __fd, const char *__fmt, va_list __ap) __printflike(2, 0);
 
 /*
  * A simplified fprintf variant.  The format string is interpreted with
  * arguments from the variable argument list, and the results are written
  * to the given file descriptor.
  */
-void _simple_dprintf(int __fd, const char *__fmt, ...);
+void _simple_dprintf(int __fd, const char *__fmt, ...) __printflike(2, 3);
 
 /*
  * A simplified string allocate routine.  Pass the opaque pointer to structure
@@ -59,32 +59,32 @@ _SIMPLE_STRING _simple_salloc(void);
 /*
  * The format string is interpreted with arguments from the va_list, and the
  * results are appended to the string maintained by the opaque structure, as
- * returned by a previous call to _simple_salloc().
- * Always returns 0 on OS X >= 10.12 and iOS >= 10.0
+ * returned by a previous call to _simple_salloc().  Non-zero is returned on
+ * out-of-memory error.
  */
-int _simple_vsprintf(_SIMPLE_STRING __b, const char *__fmt, va_list __ap);
+int _simple_vsprintf(_SIMPLE_STRING __b, const char *__fmt, va_list __ap) __printflike(2, 0);
 
 /*
  * The format string is interpreted with arguments from the variable argument
  * list, and the results are appended to the string maintained by the opaque
- * structure, as returned by a previous call to _simple_salloc().
- * Always returns 0 on OS X >= 10.12 and iOS >= 10.0
+ * structure, as returned by a previous call to _simple_salloc().  Non-zero is
+ * returned on out-of-memory error.
  */
-int _simple_sprintf(_SIMPLE_STRING __b, const char *__fmt, ...);
+int _simple_sprintf(_SIMPLE_STRING __b, const char *__fmt, ...) __printflike(2, 3);
 
 /*
  * Like _simple_vsprintf(), except __esc is a function to call on each
  * character; the function returns NULL if the character should be passed
  * as is, otherwise, the returned character string is used instead.
  */
-int _simple_vesprintf(_SIMPLE_STRING __b, _esc_func __esc, const char *__fmt, va_list __ap);
+int _simple_vesprintf(_SIMPLE_STRING __b, _esc_func __esc, const char *__fmt, va_list __ap) __printflike(3, 0);
 
 /*
  * Like _simple_sprintf(), except __esc is a function to call on each
  * character; the function returns NULL if the character should be passed
  * as is, otherwise, the returned character string is used instead.
  */
-int _simple_esprintf(_SIMPLE_STRING __b, _esc_func __esc, const char *__fmt, ...);
+int _simple_esprintf(_SIMPLE_STRING __b, _esc_func __esc, const char *__fmt, ...) __printflike(3, 4);
 
 /*
  * Return the null terminated string from the opaque structure, as returned
@@ -100,7 +100,7 @@ void _simple_sresize(_SIMPLE_STRING __b);
 
 /*
  * Append the null-terminated string to the string associated with the opaque
- * structure. Always returns 0 on OS X >= 10.12 and iOS >= 10.0
+ * structure.  Non-zero is returned on out-of-memory error.
  */
 int _simple_sappend(_SIMPLE_STRING __b, const char *__str);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Apple Inc. All rights reserved.
+ * Copyright (c) 2017 Apple Inc. All rights reserved.
  *
  * @APPLE_APACHE_LICENSE_HEADER_START@
  *
@@ -18,16 +18,10 @@
  * @APPLE_APACHE_LICENSE_HEADER_END@
  */
 
-// Force up variant to be generated to get the no-barrier OSAtomics
-#undef VARIANT_NO_RESOLVERS
-#define VARIANT_NO_RESOLVERS 0
+#ifndef __OS_LOCK_PRIVATE_UNFAIR_LOCK_INIT__
+#define __OS_LOCK_PRIVATE_UNFAIR_LOCK_INIT__
 
-#define OS_ATOMIC_UP 1
-#include "os/internal.h"
 
-#ifdef OS_VARIANT_SELECTOR
-#define OS_VARIANT_ONLY 1
-#include "atomic.c"
-#endif
+#include_next <os/lock.h>
 
-struct _os_empty_files_are_not_c_files;
+#endif // __OS_LOCK_PRIVATE_UNFAIR_LOCK_INIT__

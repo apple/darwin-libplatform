@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Apple Inc. All rights reserved.
+ * Copyright (c) 2017 Apple Inc. All rights reserved.
  *
  * @APPLE_APACHE_LICENSE_HEADER_START@
  *
@@ -18,12 +18,10 @@
  * @APPLE_APACHE_LICENSE_HEADER_END@
  */
 
-#define OS_ATOMIC_UP 1
-#include "lock_internal.h"
+#ifndef __OS_RESOLVER_INTERNAL_H__
+#define __OS_RESOLVER_INTERNAL_H__
 
-#ifdef OS_VARIANT_SELECTOR
-#define OS_VARIANT_ONLY 1
-#include "lock.c"
-#endif
+#include "os/internal.h"
 
-struct _os_empty_files_are_not_c_files;
+
+#endif // __OS_RESOLVER_INTERNAL_H__

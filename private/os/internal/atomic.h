@@ -162,9 +162,6 @@ typedef enum _os_atomic_memory_order {
 #pragma mark generic
 
 #define os_atomic_thread_fence(m) _os_atomic_barrier(m)
-// see comment in os_once.c
-#define os_atomic_maximally_synchronizing_barrier() \
-		_os_atomic_barrier(seq_cst)
 
 #define os_atomic_load2o(p, f, m) \
 		os_atomic_load(&(p)->f, m)
@@ -245,28 +242,6 @@ typedef enum _os_atomic_memory_order {
 #if defined(__x86_64__) || defined(__i386__)
 #pragma mark -
 #pragma mark x86
-
-#undef os_atomic_maximally_synchronizing_barrier
-#ifdef __LP64__
-#define os_atomic_maximally_synchronizing_barrier() \
-		({ unsigned long _clbr; __asm__ __volatile__( \
-		"cpuid" \
-		: "=a" (_clbr) : "0" (0) : "rbx", "rcx", "rdx", "cc", "memory"); })
-#else
-#ifdef __llvm__
-#define os_atomic_maximally_synchronizing_barrier() \
-		({ unsigned long _clbr; __asm__ __volatile__( \
-		"cpuid" \
-		: "=a" (_clbr) : "0" (0) : "ebx", "ecx", "edx", "cc", "memory"); })
-#else // gcc does not allow inline i386 asm to clobber ebx
-#define os_atomic_maximally_synchronizing_barrier() \
-		({ unsigned long _clbr; __asm__ __volatile__( \
-		"pushl	%%ebx\n\t" \
-		"cpuid\n\t" \
-		"popl	%%ebx" \
-		: "=a" (_clbr) : "0" (0) : "ecx", "edx", "cc", "memory"); })
-#endif
-#endif
 
 
 #endif

@@ -18,19 +18,10 @@
  * @APPLE_APACHE_LICENSE_HEADER_END@
  */
 
-#include <TargetConditionals.h>
+#ifndef __OS_RESOLVER_H__
+#define __OS_RESOLVER_H__
 
-#if TARGET_OS_EMBEDDED
+#include "resolver_internal.h"
 
-#define OS_ATOMIC_WFE 1
-#include "lock_internal.h"
 
-#ifdef OS_LOCK_VARIANT_SELECTOR
-#define OS_VARIANT_ONLY 1
-#define OS_LOCK_VARIANT_ONLY 1
-#include "lock.c"
-#endif
-
-#endif // TARGET_OS_EMBEDDED
-
-struct _os_empty_files_are_not_c_files;
+#endif // __OS_RESOLVER_H__
