@@ -2,6 +2,9 @@
  * Copyright (c) 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
+ * This code is derived from software contributed to Berkeley by
+ * Chris Torek.
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -27,76 +30,45 @@
  * SUCH DAMAGE.
  */
 
-#include <TargetConditionals.h>
+#if defined(LIBC_SCCS) && !defined(lint)
+static char sccsid[] = "@(#)strstr.c	8.1 (Berkeley) 6/4/93";
+#endif /* LIBC_SCCS and not lint */
 #include <sys/cdefs.h>
-__FBSDID("$FreeBSD: src/lib/libc/string/flsll.c,v 1.1 2008/11/03 10:22:19 kib Exp $");
+__FBSDID("$FreeBSD: src/lib/libc/string/strstr.c,v 1.6 2009/02/03 17:58:20 danger Exp $");
 
-#include <strings.h>
+#include <sys/_types/_null.h>
+#include <platform/string.h>
+
+#if !_PLATFORM_OPTIMIZED_STRSTR
 
 /*
- * Find Last Set bit
+ * Find the first occurrence of find in s.
  */
-int
-flsll(long long mask)
+char *
+_platform_strstr(const char *s, const char *find)
 {
-#if __has_builtin(__builtin_flsll)
-	return __builtin_flsll(mask);
-#elif __has_builtin(__builtin_clzll)
-	if (mask == 0)
-		return (0);
+	char c, sc;
+	size_t len;
 
-	return (sizeof(mask) << 3) - __builtin_clzll(mask);
-#else
-	int bit;
-
-	if (mask == 0)
-		return (0);
-	for (bit = 1; mask != 1; bit++)
-		mask = (unsigned long long)mask >> 1;
-	return (bit);
-#endif
+	if ((c = *find++) != '\0') {
+		len = _platform_strlen(find);
+		do {
+			do {
+				if ((sc = *s++) == '\0')
+					return (NULL);
+			} while (sc != c);
+		} while (_platform_strncmp(s, find, len) != 0);
+		s--;
+	}
+	return ((char *)s);
 }
 
-#if VARIANT_DYLD && TARGET_OS_SIMULATOR
-int
-flsl(long mask)
+#if VARIANT_STATIC
+char *
+strstr(const char *s, const char *find)
 {
-#if __has_builtin(__builtin_flsl)
-	return __builtin_flsl(mask);
-#elif __has_builtin(__builtin_clzl)
-	if (mask == 0)
-		return (0);
-
-	return (sizeof(mask) << 3) - __builtin_clzl(mask);
-#else
-	int bit;
-
-	if (mask == 0)
-		return (0);
-	for (bit = 1; mask != 1; bit++)
-		mask = (unsigned long)mask >> 1;
-	return (bit);
-#endif
+	return _platform_strstr(s, find);
 }
-
-int
-fls(int mask)
-{
-#if __has_builtin(__builtin_fls)
-	return __builtin_fls(mask);
-#elif __has_builtin(__builtin_clz)
-	if (mask == 0)
-		return (0);
-
-	return (sizeof(mask) << 3) - __builtin_clz(mask);
-#else
-	int bit;
-
-	if (mask == 0)
-		return (0);
-	for (bit = 1; mask != 1; bit++)
-		mask = (unsigned)mask >> 1;
-	return (bit);
 #endif
-}
+
 #endif

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1999-2018 Apple Computer, Inc. All rights reserved.
+ * Copyright (c) 2011 Apple, Inc. All rights reserved.
  *
  * @APPLE_LICENSE_HEADER_START@
  * 
@@ -21,24 +21,29 @@
  * @APPLE_LICENSE_HEADER_END@
  */
 
-/*
- * Copyright (c) 1998-2008 Apple Inc. All rights reserved.
- *
- *	Implements _setjmp()
- *
- */
+#include <platform/string.h>
 
-#include <architecture/arm/asm_help.h>
-#include "_setjmp.h"
-#include <arm/arch.h>
-#include <os/tsd.h>
+#if !_PLATFORM_OPTIMIZED_STRLCAT
 
-ENTRY_POINT(__setjmp)
-	_OS_PTR_MUNGE_TOKEN(r12, r12)
-	_OS_PTR_MUNGE(r1, r7, r12) // fp
-	_OS_PTR_MUNGE(r2, lr, r12)
-	_OS_PTR_MUNGE(r3, sp, r12)
-	stmia	r0!, { r1-r6, r8, r10-r11 }
-	vstmia	r0, { d8-d15 }
-	mov		r0, #0
-	bx		lr
+size_t
+_platform_strlcat(char * restrict dst, const char * restrict src, size_t maxlen) {
+    const size_t srclen = _platform_strlen(src);
+    const size_t dstlen = _platform_strnlen(dst, maxlen);
+    if (dstlen == maxlen) return maxlen+srclen;
+    if (srclen < maxlen-dstlen) {
+        _platform_memmove(dst+dstlen, src, srclen+1);
+    } else {
+        _platform_memmove(dst+dstlen, src, maxlen-dstlen-1);
+        dst[maxlen-1] = '\0';
+    }
+    return dstlen + srclen;
+}
+
+#if VARIANT_STATIC
+size_t
+strlcat(char * restrict dst, const char * restrict src, size_t maxlen) {
+	return _platform_strlcat(dst, src, maxlen);
+}
+#endif
+
+#endif
